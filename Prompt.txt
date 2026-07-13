@@ -1,0 +1,258 @@
+I need your help designing a Java application for validating generated customer letters. Please act as a Senior Software Architect with expertise in Java, document processing, PDF parsing, rule engines, and enterprise application design.
+
+IMPORTANT:
+Do NOT start writing code immediately.
+First, understand the problem completely, design the architecture, identify challenges, and propose the best scalable solution. Only after the design is finalized should we move to implementation.
+
+------------------------------------------------------------
+PROJECT BACKGROUND
+------------------------------------------------------------
+
+An enterprise application generates customer letters in PDF format.
+
+Every generated letter contains three kinds of content:
+
+1. Static Content
+   - Common text that is identical for every customer.
+
+2. Dynamic Content
+   - Customer-specific values retrieved from a database.
+   - Examples:
+     - Member Name
+     - Member ID
+     - Address
+     - Provider Name
+     - Case Number
+     - Dates
+     - Phone Numbers
+     - Other customer-specific information
+
+3. Conditional Content
+   - Certain paragraphs, sentences, bullet points, or even individual words appear only when specific business rules are satisfied.
+
+------------------------------------------------------------
+TEMPLATE STRUCTURE
+------------------------------------------------------------
+
+Unfortunately, I do NOT have the original Word (.docx) template.
+
+I only have screenshots of the template.
+
+From the screenshots I observed the following structure:
+
+Display Rule:
+A&G_Process = SHP
+
+<Paragraph(s)>
+
+Display Rule:
+A&G_Process = CC
+
+<Paragraph(s)>
+
+Display Rule:
+A&G_Process = Medicaid
+
+<Paragraph(s)>
+
+Display Rule:
+A&G_Process = QHP or EP
+
+<Paragraph(s)>
+
+There are approximately:
+
+- 10 to 15 conditional sections
+- Each section has 1 to 3 business conditions
+- Dynamic placeholders appear throughout the document.
+
+Examples of placeholders:
+
+Case.RelatedMember.Name
+
+Case.RelatedMember.MemberID
+
+Case.ProviderName
+
+Case.DateTimeReceived
+
+Case.CaseNumber
+
+etc.
+
+Some paragraphs also contain inline conditions.
+
+Example:
+
+If A&G_Process = SHP
+show Sentence A
+
+If A&G_Process = CC
+show Sentence B
+
+If A&G_Process = Medicaid
+show Sentence C
+
+So validation is required not only at paragraph level, but also at sentence level and sometimes even word level.
+
+------------------------------------------------------------
+GENERATED LETTER
+------------------------------------------------------------
+
+The generated output is always a PDF.
+
+Dynamic values may vary in length.
+
+Example:
+
+Hello Mr. John Smith.
+
+may become
+
+Hello Mr.
+Jonathan Christopher Alexander Smith.
+
+or addresses may wrap to multiple lines.
+
+Therefore formatting differences like:
+
+- Line wrapping
+- Indentation
+- Additional spaces
+- Different line breaks
+
+must NOT cause validation failures.
+
+Only the actual content matters.
+
+------------------------------------------------------------
+DATABASE
+------------------------------------------------------------
+
+The database contains all dynamic values.
+
+Examples:
+
+Member Name
+
+Member ID
+
+Provider Name
+
+Case Number
+
+A&G_Process
+
+Phone Number
+
+Date
+
+Address
+
+etc.
+
+These values determine:
+
+- Which paragraphs should appear.
+- Which paragraphs should NOT appear.
+- Which sentences should appear.
+- Which dynamic values should appear.
+
+------------------------------------------------------------
+VALIDATION REQUIREMENTS
+------------------------------------------------------------
+
+The validator should automatically verify:
+
+✓ Dynamic values exactly match the database.
+
+✓ Static text matches the template.
+
+✓ Expected conditional paragraphs exist.
+
+✓ Unexpected conditional paragraphs do NOT exist.
+
+✓ Inline conditional sentences are correct.
+
+✓ Conditional words are correct.
+
+✓ Ignore formatting differences caused by long dynamic values.
+
+Finally generate a validation report showing all mismatches.
+
+------------------------------------------------------------
+TECHNOLOGY
+------------------------------------------------------------
+
+Language:
+Java
+
+Possible libraries:
+
+Apache POI
+
+Apache PDFBox
+
+Other open-source Java libraries if necessary.
+
+------------------------------------------------------------
+IMPORTANT CONSTRAINT
+------------------------------------------------------------
+
+Since I only have screenshots of the template, assume that later I can manually convert all Display Rules into a configuration file (JSON/XML/YAML/Database).
+
+The solution should therefore be configuration-driven instead of hardcoding every paragraph inside Java.
+
+------------------------------------------------------------
+WHAT I WANT FROM YOU
+------------------------------------------------------------
+
+Please do NOT write code yet.
+
+First design the complete architecture.
+
+I want a detailed explanation covering:
+
+1. Overall system architecture
+
+2. Overall workflow
+
+3. Recommended project structure
+
+4. Required Java classes
+
+5. Data structures
+
+6. Rule Engine design
+
+7. Rule Repository design
+
+8. How to represent paragraphs
+
+9. How to represent conditions
+
+10. How to validate dynamic fields
+
+11. How to validate conditional paragraphs
+
+12. How to validate inline conditions
+
+13. How to normalize extracted PDF text
+
+14. Best algorithm for matching paragraphs
+
+15. How to avoid false positives
+
+16. How to handle future template changes
+
+17. Which design patterns fit this problem
+
+18. Time and space complexity
+
+19. Scalability considerations
+
+20. Alternative approaches with pros and cons
+
+Finally, recommend the best architecture that would be suitable for an enterprise-grade application handling thousands of generated letters.
+
+After the architecture is finalized and approved, we will implement the solution step by step in Java following SOLID principles and clean architecture.
